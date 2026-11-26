@@ -70,6 +70,37 @@ const init = () => {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
+    const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+    const themeColor = document.querySelector<HTMLMetaElement>('[data-theme-color]');
+    const initialTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    themeToggle?.setAttribute('aria-pressed', String(initialTheme === 'light'));
+    themeToggle?.setAttribute('aria-label', `Switch to ${initialTheme === 'light' ? 'dark' : 'light'} mode`);
+    themeToggle?.setAttribute('title', `Switch to ${initialTheme === 'light' ? 'dark' : 'light'} mode`);
+    if (themeColor) themeColor.content = initialTheme === 'light' ? '#f6f6f2' : '#080808';
+    let themeTransitionTimer: number | undefined;
+    const applyTheme = (theme: 'light' | 'dark') => {
+      const root = document.documentElement;
+      if (themeTransitionTimer) window.clearTimeout(themeTransitionTimer);
+      root.classList.add('theme-transitioning');
+      root.dataset.theme = theme;
+      themeToggle?.setAttribute('aria-pressed', String(theme === 'light'));
+      themeToggle?.setAttribute('aria-label', `Switch to ${theme === 'light' ? 'dark' : 'light'} mode`);
+      themeToggle?.setAttribute('title', `Switch to ${theme === 'light' ? 'dark' : 'light'} mode`);
+      if (themeColor) themeColor.content = theme === 'light' ? '#f6f6f2' : '#080808';
+
+      try {
+        localStorage.setItem('novara-theme', theme);
+      } catch {
+        // The current page theme still works when storage is unavailable.
+      }
+
+      themeTransitionTimer = window.setTimeout(() => root.classList.remove('theme-transitioning'), 500);
+    };
+
+    themeToggle?.addEventListener('click', () => {
+      applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+    });
+
     const menuToggle = document.querySelector('.menu-toggle') as HTMLButtonElement | null;
     const navLinks = document.querySelectorAll('.site-nav a');
     menuToggle?.addEventListener('click', () => {
