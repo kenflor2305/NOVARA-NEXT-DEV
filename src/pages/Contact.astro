@@ -1,38 +1,51 @@
-<section class="section contact-section" id="contact" data-section>
-  <div class="contact-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="section-heading">
-    <p class="eyebrow"><span>06</span> Start a project</p>
+<section class="section contact-section" id="contact" data-section aria-labelledby="contact-title">
+  <div class="contact-heading">
+    <p class="eyebrow contact-eyebrow"><span>06</span> Contact</p>
   </div>
 
   <div class="contact-layout">
     <div class="contact-copy">
-      <h2 class="section-title reveal-text">Let's build<br/><em>something great.</em></h2>
-      <p>Have an idea, project, or technical challenge? Tell us what you're imagining.</p>
+      <h2 class="contact-title" id="contact-title" data-contact-heading>
+        <span>LET'S BUILD</span>
+        <em>something great.</em>
+      </h2>
+      <p class="contact-description">Have an idea, project, or technical challenge? Tell us what you're imagining.</p>
+
       <div class="contact-details">
-        <a href="mailto:hello@novaradigital.com"><span>Email</span>hello@novaradigital.com</a>
-        <div><span>Social</span><b>LinkedIn · Instagram · GitHub</b></div>
+        <a class="contact-detail" href="mailto:hello@novaradigital.com" data-contact-detail>
+          <span>Email</span>
+          <strong>hello@novaradigital.com</strong>
+        </a>
+        <div class="contact-detail" data-contact-detail>
+          <span>Socials</span>
+          <strong>LinkedIn <i>/</i> Instagram <i>/</i> GitHub</strong>
+        </div>
       </div>
     </div>
 
-    <form class="contact-form" name="contact" method="POST" data-contact-form>
-      <label>
-        <span>Name</span>
-        <input type="text" name="name" placeholder="Your name" required />
+    <form class="contact-form" name="contact" action="mailto:hello@novaradigital.com" method="POST" enctype="text/plain" data-contact-form>
+      <label data-contact-field>
+        <span>Full Name</span>
+        <input type="text" name="name" autocomplete="name" placeholder="Your name" required />
       </label>
-      <label>
-        <span>Email</span>
-        <input type="email" name="email" placeholder="you@email.com" required />
+      <label data-contact-field>
+        <span>Email Address</span>
+        <input type="email" name="email" autocomplete="email" placeholder="you@email.com" required />
       </label>
-      <label>
+      <label data-contact-field>
         <span>Subject</span>
-        <input type="text" name="subject" placeholder="Project inquiry" />
+        <input type="text" name="subject" placeholder="What can we help with?" />
       </label>
-      <label>
+      <label data-contact-field>
         <span>Message</span>
         <textarea name="message" rows="4" placeholder="Tell us about your project" required></textarea>
       </label>
-      <button class="button button-primary magnetic" type="submit"><span>Send inquiry</span><b>↗</b></button>
-      <p class="form-status" role="status"></p>
+      <button class="contact-submit" type="submit" data-contact-submit>
+        <span>Send inquiry</span>
+        <svg data-submit-arrow viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M4.5 15.5 15 5m0 0H6m9 0v9" stroke="currentColor" stroke-width="1.25" />
+        </svg>
+      </button>
     </form>
   </div>
 </section>

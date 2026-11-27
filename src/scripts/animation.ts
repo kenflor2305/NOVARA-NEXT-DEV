@@ -26,6 +26,41 @@ const init = () => {
         });
       });
 
+      gsap.from('[data-contact-heading] > *', {
+        y: 34,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.14,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '[data-contact-heading]', start: 'top 82%', once: true },
+      });
+
+      gsap.from('[data-contact-detail]', {
+        y: 16,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-details', start: 'top 88%', once: true },
+      });
+
+      gsap.from('[data-contact-field], [data-contact-submit]', {
+        y: 18,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: '.contact-form', start: 'top 84%', once: true },
+      });
+
+      gsap.from('[data-footer-reveal]', {
+        y: 36,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '[data-footer-reveal]', start: 'top 88%', once: true },
+      });
+
       document.querySelectorAll('.reveal-item').forEach((element) => {
         if (element.closest('.hero')) return;
         gsap.from(element, {
@@ -63,6 +98,17 @@ const init = () => {
         rotation: 12,
         scrollTrigger: { trigger: '.about-section', start: 'top bottom', end: 'bottom top', scrub: 1.2 },
       });
+
+      const contactSubmit = document.querySelector<HTMLElement>('[data-contact-submit]');
+      const submitArrow = contactSubmit?.querySelector<SVGElement>('[data-submit-arrow]');
+      if (contactSubmit && submitArrow) {
+        contactSubmit.addEventListener('mouseenter', () => {
+          gsap.to(submitArrow, { x: 3, y: -3, duration: 0.25, ease: 'power2.out' });
+        });
+        contactSubmit.addEventListener('mouseleave', () => {
+          gsap.to(submitArrow, { x: 0, y: 0, duration: 0.3, ease: 'power2.out' });
+        });
+      }
     }
 
     const header = document.querySelector('[data-header]');
@@ -153,9 +199,16 @@ const init = () => {
     const form = document.querySelector('[data-contact-form]') as HTMLFormElement | null;
     form?.addEventListener('submit', (event) => {
       event.preventDefault();
-      const status = form.querySelector('.form-status');
-      if (status) status.textContent = 'Thanks — your inquiry is ready to send.';
-      form.reset();
+      const values = new FormData(form);
+      const subject = String(values.get('subject') || 'New project inquiry');
+      const body = [
+        `Name: ${String(values.get('name') || '')}`,
+        `Email: ${String(values.get('email') || '')}`,
+        '',
+        String(values.get('message') || ''),
+      ].join('\n');
+      const query = new URLSearchParams({ subject, body });
+      window.location.href = `mailto:hello@novaradigital.com?${query.toString()}`;
     });
   });
 
